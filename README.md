@@ -4,7 +4,7 @@ File 10012018_10012019.json has Donald Trump's latest tweets from 10.01.2018 to 
 File data.py is for data cleaning and preprocessing  
 
   
-**TODO**:  
+## **TODO**:  
   
 **Get stock data**, DJI?  
 **Get test data** (2019-2020 tweets http://www.trumptwitterarchive.com/archive)  
