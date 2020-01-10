@@ -12,10 +12,10 @@ File data.py is for data cleaning and preprocessing
   
   
 **Regression**:  
-  - Choose ML algorithm https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble  
-    -Need to make sure the algorithm can detect dependence of word within a tweet  
-  -give word preweights -> popular words more meaningless?  
-  - Train  
-  -Validate  
-  -Test  
+     Choose ML algorithm https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble  
+        Need to make sure the algorithm can detect the dependence of words within a tweet  
+     give word preweights -> popular words more meaningless?  
+     Train  
+     Validate  
+     Test  
   
