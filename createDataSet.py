@@ -17,8 +17,7 @@ headers = ['Month', 'Day', 'Year']
 
 for i in range(allTweets.shape[1] - 3):
     headers.append(i)
-allTweets = pd.read_csv('x_all.csv', names = headers)
-
+allTweets = pd.read_csv('x_all.csv', names=headers)
 
 
 tweetsWithStocks = allTweets.merge(allStockData)
@@ -28,4 +27,3 @@ print(tweetsWithStocks.head(5))
 print(allTweets.shape)
 print(allStockData.shape)
 print(tweetsWithStocks.shape)
-
