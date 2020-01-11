@@ -20,12 +20,21 @@ for i in range(allTweets.shape[1] - 3):
 allTweets = pd.read_csv('x_all.csv', names = headers)
 
 
-
 tweetsWithStocks = allTweets.merge(allStockData)
 
+differenceStocks = pd.DataFrame(columns = allStockData.columns)
 
-print(tweetsWithStocks.head(5))
-print(allTweets.shape)
-print(allStockData.shape)
-print(tweetsWithStocks.shape)
 
+for dayIndex in range(allStockData.shape[0] - 1):
+
+    newRow = allStockData.values[dayIndex]
+
+    for subIndex in range(3, allStockData.shape[1], 1):    # loop through the stocks and for day n set value of stock on day n + 1 - value on n
+        newRow[subIndex] = 100*((allStockData.values[dayIndex + 1][subIndex] - allStockData.values[dayIndex][subIndex])/allStockData.values[dayIndex][subIndex])    # change in percentages
+    differenceStocks.loc[differenceStocks.shape[0]] = newRow
+
+differencesWithTweets = differenceStocks.merge(allTweets)
+
+print(differencesWithTweets.head(10))
+
+differencesWithTweets.to_csv('dataSet_differences.csv', header = True, mode = 'w', index = False)
