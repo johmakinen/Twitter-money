@@ -65,43 +65,76 @@ def appendData(nameOfDataFile, appendTo):
 
     return
 
+def parseDate(dateString):
+    yearSlice = slice(0, 4)
+    monthSlice = slice(5, 7)
+    daySlice = slice(8, 10)
+
+    year = int(dateString[yearSlice])
+
+    monthString = dateString[monthSlice]
+    if(monthString[0] == '0'):
+        monthString = monthString[1]
+    month = int(monthString)
+
+    dayString = dateString[daySlice]
+    if(dayString[0] == '0'):
+        dayString = dayString[1]
+    day = int(dayString)
+
+    return (month, day, year)
+
+
 def setDates(nameOfDataFile, appendTo):
     
     input = pd.read_csv(nameOfDataFile)
 
     dates = pd.DataFrame(data = input['Date'])
+
+    newDates = np.zeros((len(dates['Date']), 3))
+
+    for dateIndex in range(len(dates['Date'])):
+        currDate = dates['Date'][dateIndex]
+        month, day, year = parseDate(currDate)
+        newDates[dateIndex][0] = month
+        newDates[dateIndex][1] = day
+        newDates[dateIndex][2] = year
     
-    dates.to_csv(appendTo, header = True, mode = 'w', index = False)
+    newDatesDataFrame = pd.DataFrame(data = newDates, columns = ['Month', 'Day', 'Year'])
+    
+    newDatesDataFrame.to_csv(appendTo, header = True, mode = 'w', index = False)
 
     return
+
+
+def createData():
+    outputFile = 'stockData_clean.csv'
+    folder = './StocksnShit/'
+    #testFile = 'AAL.csv'
+
+    if(verifyFolder(folder) == -1):
+        print("Error in verifying folder.")
+        exit
+    else:
+        print("Folder row lengths ok")
+
+
+    fileNames = os.listdir(folder)
+    nofFiles = len(fileNames)
+
+    setDates(folder + fileNames[0], outputFile)
+
+    for fileIndex in range(nofFiles):
+        currentFile = fileNames[fileIndex]
+        fullPath = folder + currentFile
+        appendData(fullPath, outputFile)
+    
+    return
+
 
 
 #{
 #   Script begins here
 # }
-outputFile = 'stockData_clean.csv'
-folder = './StocksnShit/'
-testFile = 'AAL.csv'
 
-
-if(verifyFolder(folder) == -1):
-    print("Error in verifying folder.")
-    exit
-else:
-    print("Folder row lengths ok")
-
-
-fileNames = os.listdir(folder)
-nofFiles = len(fileNames)
-nofRows = np.zeros(nofFiles)
-
-setDates(folder + fileNames[0], outputFile)
-    
-
-for fileIndex in range(nofFiles):
-    currentFile = fileNames[fileIndex]
-    fullPath = folder + currentFile
-    appendData(fullPath, outputFile)
-
-
-
+createData()
