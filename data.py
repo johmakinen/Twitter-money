@@ -54,8 +54,9 @@ common_words_sorted = dict(sorted(
     common_words.items(), key=lambda x: x[1], reverse=True))
 
 
-for i in list(common_words_sorted):
-    print(i, ":", common_words_sorted[i])
+# for i in list(common_words_sorted):
+#     print(i, ":", common_words_sorted[i])
+
 # remove too vague words
 cleaned_data = dict()
 
@@ -102,5 +103,32 @@ while i < number_of_tweets:
     dates.append(date_object)
     i += 1
 
+# np.set_printoptions(threshold=np.inf)
+# Merge tweets from same day
 
-print(dims)
+x_merged = np.zeros((dims[0], dims[1]+3))
+curr_index = 0
+new_index = 0
+while curr_index < number_of_tweets:
+    # print(curr_index)
+
+    curr = x[curr_index]
+    j = curr_index+1
+    if j >= number_of_tweets or curr_index >= number_of_tweets:
+        break
+    while dates[curr_index] == dates[j]:
+        curr = curr + x[j]
+        j += 1
+        if j >= number_of_tweets:
+            break
+
+    x_merged[new_index, 3:] = curr
+
+    x_merged[new_index, 0:3] = np.array(
+        [dates[curr_index].month, dates[curr_index].day, dates[curr_index].year])
+    curr_index = j
+    new_index += 1
+
+
+# Export into a csv file for later use
+pd.DataFrame(x_merged).to_csv("x_all.csv", header=False, index=False)
