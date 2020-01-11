@@ -8,8 +8,9 @@ from datetime import datetime
 with open('data_2018_2020.json') as f:
     data = json.load(f)
 
-word_occurence_upper_limit = 999999
-word_occurence_lower_limit = 20
+
+word_occurence_upper_limit = 1385
+word_occurence_lower_limit = 1100
 
 char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 
@@ -56,8 +57,8 @@ for i in list(common_words_sorted):
     if common_words_sorted[i] < word_occurence_upper_limit and common_words_sorted[i] > word_occurence_lower_limit:
         cleaned_data[i] = common_words_sorted[i]
 
-
 key_index = list(cleaned_data)
+print("Number of words taken into consideration: ", len(cleaned_data))
 
 # Goal is to give every tweet a "number_of_tweets" dimensional boolean vector of which words it contains. Also, get the timestamp of the tweet.
 dims = (number_of_tweets, len(key_index))
