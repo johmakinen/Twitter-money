@@ -6,16 +6,21 @@ File data.py is for data cleaning and preprocessing
   
 ## **TODO**:   
   
+###**Data**
   
-**Regression**:  
-Split y individual  
-Choose ML algorithm: https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble  
-Test algos (metrics!?)
-Results to csv 
+Y_data individually by stock  
+X_data include all important words  
 
+###**Regression**:
+  Choose ML algorithms: https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble  
+  Figure out metrics
+  Compare algos
+  Result representation
 
-Maybe process tweet -> stock_data differently?
-
+###**Additional***
+  Maybe process tweet -> stock_data differently?
+  Simulate stock buys to see if viable
+  
 
   
  
