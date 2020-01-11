@@ -2,13 +2,20 @@ import numpy as np
 import pandas as pd
 import json
 from pprint import pprint
+from datetime import datetime
 
-
+# Read the data
 with open('10012018_10012019.json') as f1:
     data1 = json.load(f1)
 
 with open('10012019_11012020.json') as f2:
     data2 = json.load(f2)
+
+word_occurence_upper_limit1 = 300
+word_occurence_lower_limit1 = 10
+word_occurence_upper_limit2 = 1100
+word_occurence_lower_limit2 = 20
+char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 
 # pprint(data1["all_data1"][0]["text"])
 # pprint(data1["all_data1"][0]["created_at"])
@@ -24,7 +31,6 @@ def preprocess_tweet(text, to_replace):
     return text
 
 
-char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 common_words1 = dict()
 common_words2 = dict()
 # Loop through each tweet
@@ -78,10 +84,7 @@ common_words_sorted2 = dict(sorted(
 # remove too vague words
 cleaned_data1 = dict()
 cleaned_data2 = dict()
-word_occurence_upper_limit1 = 300
-word_occurence_lower_limit1 = 10
-word_occurence_upper_limit2 = 1100
-word_occurence_lower_limit2 = 20
+
 
 for i in list(common_words_sorted1):
     if common_words_sorted1[i] < word_occurence_upper_limit1 and common_words_sorted1[i] > word_occurence_lower_limit1:
@@ -91,8 +94,8 @@ for i in list(common_words_sorted2):
     if common_words_sorted2[i] < word_occurence_upper_limit2 and common_words_sorted2[i] > word_occurence_lower_limit2:
         cleaned_data2[i] = common_words_sorted2[i]
 
-for i in list(cleaned_data2):
-    print(i, ":", cleaned_data2[i])
+# for i in list(cleaned_data2):
+#     print(i, ":", cleaned_data2[i])
 
 
 key_index1 = list(cleaned_data1)
@@ -130,3 +133,33 @@ while i < number_of_tweets2:
         if word in cleaned_data2:
             x_test[i, key_index2.index(word)] = 1
     i += 1
+
+
+# print("date_object =", date_object)
+
+# Process train_tweet datetimes into arrays
+dates_train = list()
+i = 0
+while i < number_of_tweets1:
+    # Get the datetime as string
+    date_string = data1["all_data"][i]["created_at"][4:10] + " " +\
+        data1["all_data"][i]["created_at"][-4:]
+    # Get the datetime object
+    date_object = datetime.strptime(date_string, "%b %d %Y")
+    dates_train.append(date_object)
+    i += 1
+
+# Process test_tweet datetimes into arrays
+dates_test = list()
+i = 0
+while i < number_of_tweets2:
+    # Get the datetime as string
+    date_string = data2["all_data"][i]["created_at"][4:10] + " " +\
+        data2["all_data"][i]["created_at"][-4:]
+    # Get the datetime object
+    date_object = datetime.strptime(date_string, "%b %d %Y")
+    dates_test.append(date_object)
+    i += 1
+
+
+print(dates_test[0].year)
