@@ -7,8 +7,9 @@ File data.py is for data cleaning and preprocessing
 ## **TODO**:  
   
 **Get stock data**, DJI?  
-**Get test data** (2018-2019 tweets http://www.trumptwitterarchive.com/archive)  
-**Get timestamps from twitter data** 
+**Get test data** http://www.trumptwitterarchive.com/archive **X**  
+**Get timestamps from twitter data** **X**  
+**Merge dataset with timestamps**  
   
   
 **Regression**:  
