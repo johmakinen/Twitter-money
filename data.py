@@ -8,16 +8,10 @@ from datetime import datetime
 with open('data_2018_2020.json') as f:
     data = json.load(f)
 
-# with open('10012019_11012020.json') as f2:
-#     data2 = json.load(f2)
-
 word_occurence_upper_limit = 999999
 word_occurence_lower_limit = 20
 
 char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
-
-# pprint(data["all_data"][0]["text"])
-# pprint(data["all_data"][0]["created_at"])
 
 number_of_tweets = len(data['all_data'])
 
@@ -32,7 +26,6 @@ def preprocess_tweet(text, to_replace):
 common_words = dict()
 # Loop through each tweet
 i = 0
-# Train dataset
 while i < number_of_tweets:
     tweet = data['all_data'][i]['text']
     # Remove bad characters, go lowercase
@@ -59,8 +52,6 @@ common_words_sorted = dict(sorted(
 
 # remove too vague words
 cleaned_data = dict()
-
-
 for i in list(common_words_sorted):
     if common_words_sorted[i] < word_occurence_upper_limit and common_words_sorted[i] > word_occurence_lower_limit:
         cleaned_data[i] = common_words_sorted[i]
@@ -68,13 +59,9 @@ for i in list(common_words_sorted):
 
 key_index = list(cleaned_data)
 
-# print(key_index)
-# Goal is to give every tweet a 1160 dimensional boolean vector of which words it contains. Also, get the timestamp of the tweet.
-
+# Goal is to give every tweet a "number_of_tweets" dimensional boolean vector of which words it contains. Also, get the timestamp of the tweet.
 dims = (number_of_tweets, len(key_index))
-
 x = np.zeros(dims)
-
 i = 0
 while i < number_of_tweets:
     tweet = data['all_data'][i]['text']
@@ -88,10 +75,7 @@ while i < number_of_tweets:
             x[i, key_index.index(word)] = 1
     i += 1
 
-
-# print("date_object =", date_object)
-
-# Process train_tweet datetimes into arrays
+# Process tweet datetimes into arrays
 dates = list()
 i = 0
 while i < number_of_tweets:
@@ -103,7 +87,6 @@ while i < number_of_tweets:
     dates.append(date_object)
     i += 1
 
-# np.set_printoptions(threshold=np.inf)
 # Merge tweets from same day
 
 x_merged = np.zeros((dims[0], dims[1]+3))
