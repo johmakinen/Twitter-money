@@ -115,4 +115,7 @@ while curr_index < number_of_tweets:
 
 
 # Export into a csv file for later use
-pd.DataFrame(x_merged).to_csv("x_all.csv", header=False, index=False)
+x_merged = x_merged[~(x_merged == 0).all(1)]
+df = pd.DataFrame(x_merged)
+df = df[::-1]
+df.to_csv("x_all.csv", header=False, index=False)
