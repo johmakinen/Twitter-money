@@ -4,24 +4,19 @@ File data_2018_2020.json has Donald Trump's latest tweets from 10.01.2018 to 11.
 File data.py is for data cleaning and preprocessing  
 
   
-## **TODO**:  
-  
-**Get stock data**, DJI?  
-**Get data** http://www.trumptwitterarchive.com/archive **X**  
-**Get timestamps from twitter data** **X**  
-**Merge dataset with timestamps**  
+## **TODO**:   
   
   
 **Regression**:  
+Split y individual  
 Choose ML algorithm: https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble  
+Test algos (metrics!?)
+Results to csv 
+
+
+Maybe process tweet -> stock_data differently?
+
+
   
-  Need to make sure the algorithm can detect the dependence of words within a tweet  
-   
-  Give word preweights -> popular words more meaningless?  
-   
-  Train  
-  
-  Validate  
-  
-  Test  
+ 
   
