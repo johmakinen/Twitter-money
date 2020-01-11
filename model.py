@@ -10,6 +10,7 @@ import numpy as np
 import os
 
 
+
 x_train = np.array([])
 y_train = np.array([])
 x_test = np.array([])
