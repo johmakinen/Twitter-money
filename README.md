@@ -9,6 +9,7 @@
 **Data**  
   
 Y_data individually by stock  
+X_data make whole script more dynamic by separating tweets and timestamps at the beginning  
 X_data include all important words  
 
 **Regression**:  
