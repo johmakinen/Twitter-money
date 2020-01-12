@@ -3,18 +3,35 @@ import pandas as pd
 import json
 from pprint import pprint
 from datetime import datetime
-
+##############################################################
+# READ THE TWEET DATA AND TIMESTAMPS INTO FORMATS:
+# tweets = list('tweet1','tweet2',...)
+# timestamps = list('Jan 01 2018','Jan 02 2018'...)
+##############################################################
 # Read the data
 with open('data_2018_2020.json') as f:
     data = json.load(f)
 
+# Initialise tweet and timestamp lists, then fill them
+number_of_tweets = len(data['all_data'])
+tweets = list()
+dates = list()
 
+i = 0
+while i < number_of_tweets:
+    tweets.append(data["all_data"][i]["text"])
+    dates.append(data["all_data"][i]["created_at"])
+    i += 1
+##############################################################
+
+# Set word occurence limits to filter out "a", "the" etc.
 word_occurence_upper_limit = 1385
-word_occurence_lower_limit = 1100
-
+word_occurence_lower_limit = 20
 char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 
-number_of_tweets = len(data['all_data'])
+##############################################################
+##############################################################
+# SCRIPT BEGINS HERE
 
 
 def preprocess_tweet(text, to_replace):
@@ -28,7 +45,7 @@ common_words = dict()
 # Loop through each tweet
 i = 0
 while i < number_of_tweets:
-    tweet = data['all_data'][i]['text']
+    tweet = tweets[i]
     # Remove bad characters, go lowercase
     tweet = preprocess_tweet(tweet, char_blacklist)
 
@@ -60,12 +77,12 @@ for i in list(common_words_sorted):
 key_index = list(cleaned_data)
 print("Number of words taken into consideration: ", len(cleaned_data))
 
-# Goal is to give every tweet a "number_of_tweets" dimensional boolean vector of which words it contains. Also, get the timestamp of the tweet.
+# Goal is to give every tweet a "number_of_tweets" dimensional boolean vector of which words it contains.
 dims = (number_of_tweets, len(key_index))
 x = np.zeros(dims)
 i = 0
 while i < number_of_tweets:
-    tweet = data['all_data'][i]['text']
+    tweet = tweets[i]
     # Remove bad characters, go lowercase
     tweet = preprocess_tweet(tweet, char_blacklist)
    # Iterate over each word in tweet
@@ -76,31 +93,28 @@ while i < number_of_tweets:
             x[i, key_index.index(word)] = 1
     i += 1
 
+
 # Process tweet datetimes into arrays
-dates = list()
+dates_dtm = list()
 i = 0
 while i < number_of_tweets:
     # Get the datetime as string
-    date_string = data["all_data"][i]["created_at"][4:10] + " " +\
-        data["all_data"][i]["created_at"][-4:]
+    date_string = dates[i][4:10] + " " + dates[i][-4:]
     # Get the datetime object
     date_object = datetime.strptime(date_string, "%b %d %Y")
-    dates.append(date_object)
+    dates_dtm.append(date_object)
     i += 1
 
 # Merge tweets from same day
-
 x_merged = np.zeros((dims[0], dims[1]+3))
 curr_index = 0
 new_index = 0
 while curr_index < number_of_tweets:
-    # print(curr_index)
-
     curr = x[curr_index]
     j = curr_index+1
     if j >= number_of_tweets or curr_index >= number_of_tweets:
         break
-    while dates[curr_index] == dates[j]:
+    while dates_dtm[curr_index] == dates_dtm[j]:
         curr = curr + x[j]
         j += 1
         if j >= number_of_tweets:
@@ -109,7 +123,7 @@ while curr_index < number_of_tweets:
     x_merged[new_index, 3:] = curr
 
     x_merged[new_index, 0:3] = np.array(
-        [dates[curr_index].month, dates[curr_index].day, dates[curr_index].year])
+        [dates_dtm[curr_index].month, dates_dtm[curr_index].day, dates_dtm[curr_index].year])
     curr_index = j
     new_index += 1
 
