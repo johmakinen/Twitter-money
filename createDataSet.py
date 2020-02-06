@@ -31,7 +31,7 @@ for dayIndex in range(allStockData.shape[0] - 1):
     # loop through the stocks and for day n set value of stock on day n + 1 - value on n
     for subIndex in range(3, allStockData.shape[1], 1):
         percentageValue = 100*((allStockData.values[dayIndex + 1][subIndex] - allStockData.values[dayIndex]
-                                 [subIndex])/allStockData.values[dayIndex][subIndex])
+                                [subIndex])/allStockData.values[dayIndex][subIndex])
         newRow[subIndex] = round(percentageValue, 5)   # change in percentages
     differenceStocks.loc[differenceStocks.shape[0]] = newRow
 
