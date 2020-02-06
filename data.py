@@ -3,6 +3,8 @@ import pandas as pd
 import json
 from pprint import pprint
 from datetime import datetime
+import sys
+import csv
 ##############################################################
 # READ THE TWEET DATA AND TIMESTAMPS INTO FORMATS:
 # tweets = list('tweet1','tweet2',...)
@@ -25,8 +27,8 @@ while i < number_of_tweets:
 ##############################################################
 
 # Set word occurence limits to filter out "a", "the" etc.
-word_occurence_upper_limit = 1385
-word_occurence_lower_limit = 20
+word_occurence_upper_limit = sys.maxsize
+word_occurence_lower_limit = 1
 char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 
 ##############################################################
@@ -75,6 +77,8 @@ for i in list(common_words_sorted):
         cleaned_data[i] = common_words_sorted[i]
 
 key_index = list(cleaned_data)
+
+
 print("Number of words taken into consideration: ", len(cleaned_data))
 
 # Goal is to give every tweet a "number_of_tweets" dimensional boolean vector of which words it contains.
