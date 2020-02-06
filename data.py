@@ -3,6 +3,7 @@ import pandas as pd
 import json
 from pprint import pprint
 from datetime import datetime
+import sys
 ##############################################################
 # READ THE TWEET DATA AND TIMESTAMPS INTO FORMATS:
 # tweets = list('tweet1','tweet2',...)
@@ -25,8 +26,8 @@ while i < number_of_tweets:
 ##############################################################
 
 # Set word occurence limits to filter out "a", "the" etc.
-word_occurence_upper_limit = 1385
-word_occurence_lower_limit = 20
+word_occurence_upper_limit = sys.maxsize
+word_occurence_lower_limit = 1
 char_blacklist = ['!', '?', '@', '"', '%', '.', ',', ':', '-', ';', '&']
 
 ##############################################################
